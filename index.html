@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Somnos</title>
-<link rel="apple-touch-icon" href="somnos_icon.png">
+<link rel="apple-touch-icon" href="somnos-icon.png">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -648,6 +648,8 @@
 </nav>
 
 <script>
+const PRESET_DAY_OFFSET = { normal:0, early:1, escalating:2, severe:3, blackout:4 };
+
 const PRESETS = {
   normal: {
     label: 'Normal',
@@ -683,11 +685,11 @@ const PRESETS = {
     ],
     anomalies: [],
     history: [
-      {date:'Last night', dateShort:'Jun 9', score:84, scoreLabel:'good', duration:'7h 22m', note:''},
-      {date:'Monday', dateShort:'Jun 8', score:79, scoreLabel:'good', duration:'7h 05m', note:''},
-      {date:'Sunday', dateShort:'Jun 7', score:88, scoreLabel:'good', duration:'7h 48m', note:''},
-      {date:'Saturday', dateShort:'Jun 6', score:76, scoreLabel:'good', duration:'6h 55m', note:''},
-      {date:'Friday', dateShort:'Jun 5', score:81, scoreLabel:'good', duration:'7h 14m', note:''},
+      {daysAgo:1, score:84, scoreLabel:'good', duration:'7h 22m', note:''},
+      {daysAgo:2, score:79, scoreLabel:'good', duration:'7h 05m', note:''},
+      {daysAgo:3, score:88, scoreLabel:'good', duration:'7h 48m', note:''},
+      {daysAgo:4, score:76, scoreLabel:'good', duration:'6h 55m', note:''},
+      {daysAgo:5, score:81, scoreLabel:'good', duration:'7h 14m', note:''},
     ]
   },
   early: {
@@ -726,11 +728,11 @@ const PRESETS = {
       {time:'2:31 AM', duration:'18 min', text:'Elevated movement detected outside normal range. Duration 18 minutes. No prior pattern match.'}
     ],
     history: [
-      {date:'Last night', dateShort:'Jun 9', score:71, scoreLabel:'fair', duration:'6h 44m', note:'Movement anomaly 2:31 AM', flagged:true},
-      {date:'Monday', dateShort:'Jun 8', score:84, scoreLabel:'good', duration:'7h 22m', note:''},
-      {date:'Sunday', dateShort:'Jun 7', score:79, scoreLabel:'good', duration:'7h 05m', note:''},
-      {date:'Saturday', dateShort:'Jun 6', score:88, scoreLabel:'good', duration:'7h 48m', note:''},
-      {date:'Friday', dateShort:'Jun 5', score:76, scoreLabel:'good', duration:'6h 55m', note:''},
+      {daysAgo:1, score:71, scoreLabel:'fair', duration:'6h 44m', note:'Movement anomaly 2:31 AM', flagged:true},
+      {daysAgo:2, score:84, scoreLabel:'good', duration:'7h 22m', note:''},
+      {daysAgo:3, score:79, scoreLabel:'good', duration:'7h 05m', note:''},
+      {daysAgo:4, score:88, scoreLabel:'good', duration:'7h 48m', note:''},
+      {daysAgo:5, score:76, scoreLabel:'good', duration:'6h 55m', note:''},
     ]
   },
   escalating: {
@@ -772,11 +774,11 @@ const PRESETS = {
       {time:'3:18 AM', duration:'31 min', text:'Second event same night. Extended duration. Recommend review.'}
     ],
     history: [
-      {date:'Last night', dateShort:'Jun 9', score:54, scoreLabel:'fair', duration:'5h 58m', note:'2 anomalies detected', flagged:true},
-      {date:'Monday', dateShort:'Jun 8', score:71, scoreLabel:'fair', duration:'6h 44m', note:'Movement anomaly 2:31 AM', flagged:true},
-      {date:'Sunday', dateShort:'Jun 7', score:84, scoreLabel:'good', duration:'7h 22m', note:''},
-      {date:'Saturday', dateShort:'Jun 6', score:79, scoreLabel:'good', duration:'7h 05m', note:''},
-      {date:'Friday', dateShort:'Jun 5', score:88, scoreLabel:'good', duration:'7h 48m', note:''},
+      {daysAgo:1, score:54, scoreLabel:'fair', duration:'5h 58m', note:'2 anomalies detected', flagged:true},
+      {daysAgo:2, score:71, scoreLabel:'fair', duration:'6h 44m', note:'Movement anomaly 2:31 AM', flagged:true},
+      {daysAgo:3, score:84, scoreLabel:'good', duration:'7h 22m', note:''},
+      {daysAgo:4, score:79, scoreLabel:'good', duration:'7h 05m', note:''},
+      {daysAgo:5, score:88, scoreLabel:'good', duration:'7h 48m', note:''},
     ]
   },
   severe: {
@@ -813,11 +815,11 @@ const PRESETS = {
       {time:'2:08 AM', duration:'43 min', text:'Prolonged movement event. Highest intensity recorded. Unable to classify.'}
     ],
     history: [
-      {date:'Last night', dateShort:'Jun 9', score:32, scoreLabel:'poor', duration:'4h 12m', note:'3 anomalies — review required', flagged:true},
-      {date:'Monday', dateShort:'Jun 8', score:54, scoreLabel:'fair', duration:'5h 58m', note:'2 anomalies detected', flagged:true},
-      {date:'Sunday', dateShort:'Jun 7', score:71, scoreLabel:'fair', duration:'6h 44m', note:'Movement anomaly 2:31 AM', flagged:true},
-      {date:'Saturday', dateShort:'Jun 6', score:84, scoreLabel:'good', duration:'7h 22m', note:''},
-      {date:'Friday', dateShort:'Jun 5', score:79, scoreLabel:'good', duration:'7h 05m', note:''},
+      {daysAgo:1, score:32, scoreLabel:'poor', duration:'4h 12m', note:'3 anomalies — review required', flagged:true},
+      {daysAgo:2, score:54, scoreLabel:'fair', duration:'5h 58m', note:'2 anomalies detected', flagged:true},
+      {daysAgo:3, score:71, scoreLabel:'fair', duration:'6h 44m', note:'Movement anomaly 2:31 AM', flagged:true},
+      {daysAgo:4, score:84, scoreLabel:'good', duration:'7h 22m', note:''},
+      {daysAgo:5, score:79, scoreLabel:'good', duration:'7h 05m', note:''},
     ]
   },
   blackout: {
@@ -845,11 +847,11 @@ const PRESETS = {
       {time:'12:17 AM', duration:'unknown', text:'Sensor data interrupted. No readings recorded 12:17 AM – 5:58 AM. Device remained powered. Cause undetermined.'}
     ],
     history: [
-      {date:'Last night', dateShort:'Jun 9', score:'—', scoreLabel:'poor', duration:'unknown', note:'Sensor data loss 12:17 AM–5:58 AM', flagged:true},
-      {date:'Monday', dateShort:'Jun 8', score:32, scoreLabel:'poor', duration:'4h 12m', note:'3 anomalies — review required', flagged:true},
-      {date:'Sunday', dateShort:'Jun 7', score:54, scoreLabel:'fair', duration:'5h 58m', note:'2 anomalies detected', flagged:true},
-      {date:'Saturday', dateShort:'Jun 6', score:71, scoreLabel:'fair', duration:'6h 44m', note:'Movement anomaly 2:31 AM', flagged:true},
-      {date:'Friday', dateShort:'Jun 5', score:84, scoreLabel:'good', duration:'7h 22m', note:''},
+      {daysAgo:1, score:'—', scoreLabel:'poor', duration:'unknown', note:'Sensor data loss 12:17 AM–5:58 AM', flagged:true},
+      {daysAgo:2, score:32, scoreLabel:'poor', duration:'4h 12m', note:'3 anomalies — review required', flagged:true},
+      {daysAgo:3, score:54, scoreLabel:'fair', duration:'5h 58m', note:'2 anomalies detected', flagged:true},
+      {daysAgo:4, score:71, scoreLabel:'fair', duration:'6h 44m', note:'Movement anomaly 2:31 AM', flagged:true},
+      {daysAgo:5, score:84, scoreLabel:'good', duration:'7h 22m', note:''},
     ]
   }
 };
@@ -958,7 +960,7 @@ function buildTonight(key) {
 
   tonight.innerHTML = html;
   drawChart(p.stages);
-  setTodayDate();
+  setTodayDate(key);
 }
 
 function drawChart(stages) {
@@ -999,6 +1001,22 @@ function drawChart(stages) {
   });
 }
 
+function getPresetBase(key) {
+  const d = new Date();
+  d.setDate(d.getDate() + PRESET_DAY_OFFSET[key]);
+  return d;
+}
+
+function formatHistoryDate(daysAgo, presetKey) {
+  const base = getPresetBase(presetKey);
+  base.setDate(base.getDate() - daysAgo);
+  const weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const label = daysAgo === 1 ? 'Last night' : weekdays[base.getDay()];
+  const short = `${months[base.getMonth()]} ${base.getDate()}`;
+  return {label, short};
+}
+
 function buildHistory(key) {
   const p = PRESETS[key];
   const page = document.getElementById('page-history');
@@ -1008,12 +1026,13 @@ function buildHistory(key) {
     html += `<div class="history-empty">No sleep data recorded yet.<br>Your history will appear here.</div>`;
   } else {
     p.history.forEach(h => {
+      const {label, short} = formatHistoryDate(h.daysAgo, key);
       const flagClass = h.flagged ? ' flagged' : '';
       html += `<div class="history-entry${flagClass}">
         <div class="history-score-circle ${h.scoreLabel}">${h.score}</div>
         <div class="history-info">
-          <div class="history-date">${h.date}</div>
-          <div class="history-meta">${h.dateShort}</div>
+          <div class="history-date">${label}</div>
+          <div class="history-meta">${short}</div>
           ${h.note ? `<div class="history-flag">⚠ ${h.note}</div>` : ''}
         </div>
         <div class="history-duration">${h.duration}</div>
@@ -1048,11 +1067,12 @@ function selectPreset(key) {
   buildPresetPicker();
 }
 
-function setTodayDate() {
+function setTodayDate(key) {
   const el = document.getElementById('scoreDate');
   if (!el) return;
-  const d = new Date();
-  el.textContent = d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+  const base = getPresetBase(key);
+  base.setDate(base.getDate() - 1);
+  el.textContent = base.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
 }
 
 function updateClock() {
